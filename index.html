@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-do list</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="todo">
+        <h2>
+          To-Do List
+          <img
+            src="https://cdn.pixabay.com/photo/2016/03/31/19/50/checklist-1295319_1280.png"
+            alt="to-do-list"
+            width="25px"
+          />
+        </h2>
+        <div class="content">
+          <input type="text" placeholder="Write Any Text..." id="input" />
+          <button id="btn">Add</button>
+        </div>
+        <ul id="list"></ul>
+      </div>
+    </div>
+    <script>
+      const inpbox = document.getElementById("input");
+      const listCon = document.getElementById("list");
+      let button = document.getElementById("btn");
+      button.addEventListener("click", function addTask() {
+        if (inpbox.value === "") {
+          alert("write something here");
+        } else {
+          let li = document.createElement("li");
+          li.innerHTML = inpbox.value;
+          listCon.appendChild(li);
+          let span = document.createElement("span");
+          span.innerHTML = "\u00d7";
+          li.appendChild(span);
+        }
+        inpbox.value = "";
+        saveData();
+      });
+      listCon.addEventListener(
+        "click",
+        function (e) {
+          //console.log(e)
+
+          if (e.target.tagName === "LI") {
+            e.target.classList.toggle("checked");
+            saveData();
+            //console.log(e.target.tagName)
+          } else if (e.target.tagName === "SPAN") {
+            e.target.parentElement.remove();
+            saveData();
+          }
+        },
+        false
+      );
+      function saveData(){
+        localStorage.setItem("sdata",listCon.innerHTML);
+      }
+      function show(){
+        listCon.innerHTML=localStorage.getItem("sdata")
+      }
+      show()
+    </script>
+  </body>
+</html>
